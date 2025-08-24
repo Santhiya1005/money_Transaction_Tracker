@@ -1,38 +1,69 @@
-.App {
+*{
+  box-sizing: border-box;
+}
+body{
+  background-color: rgb(239, 152, 181);
+  color: black;
+}
+main{
+  max-width: 450px;
+  margin: 20px auto;
+}
+h1{
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  margin-bottom: 20px;
 }
-
-.App-link {
-  color: #61dafb;
+form input{
+  width: 100%;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(0, 0, 0);
+  padding: 4px 10px;
+  border-radius: 10px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form input[type="datetime-local"]
+{
+  color: rgb(110, 104, 104);
+}
+form div.basic{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+form button{
+  background-color: green;
+  color: white;
+  border-radius: 10px;
+  padding: 4px 10px;
+  margin-top: 5px;
+}
+div.details{
+  margin-top: 10px;
+}
+div.first{
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-top: 2px solid rgb(0, 0, 0);
+}
+div.first:first-child{
+  border-top: none;
+}
+div.first div.name,div.price{
+  font-size: 18px;
+  color: black;
+}
+div.first div.description,div.datetime{
+  font-size: 12px;
+  color: black;
+}
+div.right{
+  text-align: right;
+}
+div.first div.pricegreen{
+  color: green;
+}
+div.first div.pricered{
+  color: red;
 }
