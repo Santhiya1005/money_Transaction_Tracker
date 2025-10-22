@@ -1,70 +1,138 @@
-# Getting Started with Create React App
+# 💰 Money Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Build Status](https://img.shields.io/badge/status-live-brightgreen)](https://money-transaction-tracker.onrender.com)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-## Available Scripts
+A **fullstack money tracking application** built with **React**, **Node.js/Express**, and **MongoDB**.  
+Users can add, view, and manage transactions easily. Fully deployed on **Render**.
 
-In the project directory, you can run:
+---------
+**Live Demo:** [https://money-transaction-tracker.onrender.com](https://money-transaction-tracker.onrender.com)
+---------
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Add new transactions with **name, price, description, date/time**  
+- View all transactions in a clean UI  
+- Backend APIs for transaction management  
+- React frontend served as a single-page application  
+- Full deployment on Render with automatic environment variable handling  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend:** React, React DOM, React Scripts  
+- **Backend:** Node.js, Express v4, MongoDB (Mongoose)  
+- **Environment Variables:** dotenv  
+- **CORS Enabled:** cors  
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Folder Structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+MONEY_TRACKER/
+├─ api/
+│ ├─ models/
+│ │ └─ Transaction.js
+│ ├─ index.js
+│ └─ .env
+├─ build/ # React production build
+├─ node_modules/
+├─ public/
+├─ src/
+├─ package.json
+└─ .env
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Installation (Local Development)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+git clone https://github.com/Santhiya1005/money_Transaction_Tracker.git
+cd money_Transaction_Tracker
+Install dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+bash
+Copy code
+npm install
+Create a .env file inside /api folder:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+ini
+Copy code
+MONGO_URL=<Your MongoDB Connection String>
+PORT=4040
+Run backend and frontend locally:
 
-## Learn More
+bash
+Copy code
+# Start React frontend
+npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# In another terminal, start backend
+node api/index.js
+React frontend: http://localhost:3000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Backend API test: http://localhost:4040/api/test
 
-### Code Splitting
+## Build & Deploy (Production)
+Build React frontend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+bash
+Copy code
+npm run build
+Ensure api/index.js serves the build folder:
 
-### Analyzing the Bundle Size
+js
+Copy code
+const path = require('path');
+const express = require('express');
+const app = express();
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const buildPath = path.join(__dirname, '../build');
+app.use(express.static(buildPath));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+});
+Deploy to Render:
 
-### Making a Progressive Web App
+Root Directory: Repository root
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Build Command: npm install && npm run build
 
-### Advanced Configuration
+Start Command: node api/index.js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+🔗 API Endpoints
+Endpoint	Method	Description
+/api/test	GET	Test endpoint
+/api/transaction	POST	Create a new transaction
+/api/transactions	GET	Get all transactions
 
-### Deployment
+POST /api/transaction Body Example:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+json
+Copy code
+{
+  "name": "Groceries",
+  "price": 50,
+  "description": "Bought vegetables",
+  "datetime": "2025-10-22T15:00:00"
+}
 
-### `npm run build` fails to minify
+<img width="1918" height="908" alt="image" src="https://github.com/user-attachments/assets/a18412e0-3551-4255-ac53-24750bc27128" />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+Notes
+Ensure React build folder exists before deploying.
+
+Express v4 is required to prevent wildcard route errors.
+
+MongoDB connection string must be valid and accessible from Render.
+
+License
+This project is licensed under the MIT License. See LICENSE for details.
+
+Acknowledgements
+* Create React App
+* Express.js
+* MongoDB & Mongoose
+* Render for hosting
