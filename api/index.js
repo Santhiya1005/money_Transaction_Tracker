@@ -4,13 +4,14 @@ const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const path = require('path');
+const fs = require('fs');
 const Transaction = require('./models/Transaction.js');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Connect to MongoDB once ---
+// --- Connect to MongoDB ---
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -43,11 +44,17 @@ app.get('/api/transactions', async (req, res) => {
 });
 
 // --- Serve React Frontend ---
-app.use(express.static(path.join(__dirname, '../build')));
+const buildPath = path.join(__dirname, '../build');
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+if (fs.existsSync(path.join(buildPath, 'index.html'))) {
+    app.use(express.static(buildPath));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(buildPath, 'index.html'));
+    });
+} else {
+    console.log('⚠️ React build folder not found. Make sure to run `npm run build` or set Render build command.');
+}
 
 // --- Start Server ---
 const PORT = process.env.PORT || 4040;
