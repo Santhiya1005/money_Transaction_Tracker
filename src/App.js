@@ -6,11 +6,9 @@ function App() {
   const [name,setName]=useState("");
   const [datetime,setDatemtime]=useState("");
   const [description,setDescription]=useState("");
-  const [transactions,setTransactions]=useState("");
+  const [transactions,setTransactions]=useState([]);
   useEffect(()=>{
-    getTransactions().then(transactions =>{
-      setTransactions(transactions);
-    });
+    getTransactions().then(setTransactions);
   },[]);
   async function getTransactions()
   {
@@ -40,9 +38,16 @@ function App() {
       });
     });
   }
+  let balance = 0;
+  for (let transaction of transactions){
+    balance=balance+transaction.price;
+  }
+  balance=balance.toFixed(2);
+  const fraction=balance.split('.')[1];
+  balance=balance.split('.')[0];
   return (
     <main>
-      <h1>Money Tracsaction Review</h1>
+      <h1>Rupee {balance}<span>{fraction}</span></h1>
       <form onSubmit={addNew}>
         <div className='basic'>
         <input type='text'
@@ -62,40 +67,28 @@ function App() {
 
         </div>
         <button type='submit'>Add new transaction</button>
+  
       </form>
 
       <div className='details'>
-        <div className='first'>
-          <div className='left'>
-              <div className='name'>oppo reno 13</div>
-              <div className='description'>it was time for reno 13</div>
-          </div>
-          <div className='right'>
-              <div className='pricegreen'>+$500</div>
-              <div className='datetime'>2025-08-20 19:17</div>
-          </div>
-          </div>
-          <div className='first'>
-          <div className='left'>
-              <div className='name'>Healthy snaks</div>
-              <div className='description'>purchased some snacks</div>
-          </div>
-          <div className='right'>
-              <div className='pricered'>-$100</div>
-              <div className='datetime'>2025-05-01 10:54</div>
-          </div>                                                              
-          </div>
-          <div className='first'>
-          <div className='left'>
-              <div className='name'>skin care purchases</div>
-              <div className='description'>time to get skin care products</div>
-          </div>
-          <div className='right'>
-              <div className='pricered'>-$500</div>
-              <div className='datetime'>2025-07-10 20:31</div>
-          </div>
-          </div>
+  {transactions.length > 0 && transactions.map((transaction, index) => (
+    <div className='first' key={index}>
+      <div className='left'>
+        <div className='name'>{transaction.name}</div>
+        <div className='description'>{transaction.description}</div>
       </div>
+      <div className='right'>
+        <div className={'price' + (transaction.price < 0 ? 'red' : 'green')}>
+          {transaction.price}
+        </div>
+        <div className='datetime'>{transaction.datetime}</div>
+      </div>
+    </div>
+  ))}
+</div>
+  
+        
+
     </main>
   );
 }
